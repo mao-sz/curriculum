@@ -69,9 +69,3 @@ The following questions are an opportunity to reflect on key topics in this less
 - [How can you define a width and a height on an `img` without distorting it?](#aspect-ratio-knowledge-check)
 - [Why would you want to provide different images at different screen resolutions?](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#why_responsive_images)
 - [When would you want to use an `img` with a `srcset` vs a `picture`?](https://css-tricks.com/a-guide-to-the-responsive-images-syntax-in-html/)
-
-### Additional resources
-
-This section contains helpful links to related content. It isn't required, so consider it supplemental.
-
-- [Responsive Images 101](https://cloudfour.com/thinks/responsive-images-101-definitions/) is a good series of articles if you need another source.

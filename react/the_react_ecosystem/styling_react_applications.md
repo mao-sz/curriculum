@@ -16,7 +16,7 @@ Regular CSS is the simplest way to style. CSS Modules let you write CSS style de
 
 Why even write CSS in CSS when you can write it in JavaScript? Just kidding, of course!
 
-CSS-in-JS is a paradigm for styling front-end projects. It allows you to entirely take control of CSS with JavaScript and extends it with various features. Additionally, it also helps to apply styling in a logical fashion, e.g. based on state, and also supports modular CSS in the same way that CSS Modules do. There are various CSS-in-JS solutions. One of the most popular ones in the React ecosystem is [styled-components](https://styled-components.com/).
+CSS-in-JS is a paradigm for styling front-end projects. It allows you to entirely take control of CSS with JavaScript and extend it with various features. Additionally, it also helps to apply styling in a logical fashion, e.g. based on state, and also supports modular CSS in the same way that CSS Modules do. There are various CSS-in-JS solutions. One of the most popular ones in the React ecosystem is [styled-components](https://styled-components.com/).
 
 ### CSS Utility Frameworks
 
@@ -30,9 +30,11 @@ What if everything's already done for you? Styling, behavior, and accessibility 
 
 There are also icon component libraries like [lucide react](https://lucide.dev/guide/packages/lucide-react), which let you include icons in your project as components.
 
-<div class="lesson-note lesson-note--warning" markdown="1" >
+<div class="lesson-note lesson-note--warning" markdown="1">
 
-For learning purposes throughout this course, we strongly recommend that you avoid using CSS frameworks or component libraries (using icon component libraries is fine), and instead implement your component's styling from scratch i.e. use [CSS Modules](#css-modules) or a [CSS-in-JS](#css-in-js) option.
+#### Recommended styling approach
+
+For learning purposes throughout this course, we strongly recommend that you avoid using CSS frameworks or component libraries (using icon component libraries is fine), and instead implement your components' styling from scratch using CSS Modules.
 
 </div>
 
@@ -55,9 +57,3 @@ The following questions are an opportunity to reflect on key topics in this less
 - [How can you use CSS Modules in your React app?](https://www.makeuseof.com/react-components-css-modules-style/)
 - [What does CSS-in-JS mean?](#css-in-js)
 - [What are component libraries?](#component-libraries)
-
-### Additional resources
-
-This section contains helpful links to related content. It isn't required, so consider it supplemental.
-
-- Josh Comeau has a nice article on [getting the most out of styled-components](https://www.joshwcomeau.com/css/styled-components/).

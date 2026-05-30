@@ -4,7 +4,9 @@ In the previous lesson, we introduced ES6 modules (ESM) and npm. The introductio
 
 Fortunately, more recent web technologies have greatly improved these aspects, but bundlers still provide us with a lot of power to process and optimize our code in various ways. This power, however, does come with the small cost of needing to configure a bundler. For now, our needs are few and simple, and we can look at the basic things one at a time.
 
-Awareness of bundlers and basic experience with them is valuable. While in recent years, new build tools have come out that handle a lot of basic configuration for us, in the real world, you may not always get a chance to use these shiny new tools. It's very reasonable to end up working with codebases that use tools that require more manual configuration. Even if you did get to work with tools that handle more things for you, it's useful to understand what those tools are actually doing for you.
+Awareness of bundlers and basic experience with them is valuable. While in recent years, new build tools have come out that handle a lot of basic configuration for us, in the real world, you may not always get a chance to use these shiny new tools. It's very reasonable to end up working with codebases that use tools that require more manual configuration. Even when you work with tools that handle more things for you, it's useful to understand what those tools are actually doing for you.
+
+Ensure you are running the latest LTS version of Node.js before proceeding. If necessary, you can use NVM to install the latest LTS version as per the [Installing Node.js](https://www.theodinproject.com/lessons/foundations-installing-node-js#installing-node) lesson.
 
 ### Lesson overview
 
@@ -17,7 +19,7 @@ This section contains a general overview of topics that you will learn in this l
 
 ### Bundling
 
-In the previous lesson, we learned what an **entry point** is, what a **dependency graph** is, and how to add an entry point file to HTML as a module script. With bundling, the same concepts of entry points and dependency graphs apply: we provide the bundler with an entry point. It then builds a dependency graph from that file, combines all relevant files together, and then outputs a single file with all the necessary code included.
+In the ES6 modules lesson, we learned what an **entry point** is, what a **dependency graph** is, and how to add an entry point file to HTML as a module script. With bundling, the same concepts of entry points and dependency graphs apply: we provide the bundler with an entry point. It then builds a dependency graph from that file, combines all relevant files together, and then outputs a single file with all the necessary code included.
 
 While it does this, we could also get it to do a whole bunch of other things, such as [minifying our code](https://en.wikipedia.org/wiki/Minification_(programming)), image optimizations, or even ["tree shaking"](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking). Most of these extra optimizations are out of the scope of this course; we will instead be focusing on basic bundling of JavaScript, and handling HTML, CSS, and images.
 
@@ -30,28 +32,34 @@ We'll first need to make a new directory for our practice app, then create a `pa
 ```bash
 mkdir webpack-practice &&
 cd webpack-practice &&
-npm init -y
+npm init -y --init-type=module
 ```
 
-Once inside your new directory, we can go ahead and install Webpack, which involves two packages.
+This should create a `package.json` file inside the `webpack-practice` directory you just made and entered. Now we can install Webpack:
 
 ```bash
 npm install --save-dev webpack webpack-cli
 ```
 
-Note that we included the `--save-dev` flag (you can also use `-D` as a shortcut), which tells npm to record our two packages as development dependencies. We will only be using Webpack during development. The actual code that makes Webpack run will not be part of the code that the browser will run.
-
-Also notice that when these finished installing, a `node_modules` directory and a `package-lock.json` got auto-generated. `node_modules` is where Webpack's actual code (and a whole bunch of other stuff) lives, and `package-lock.json` is just another file npm uses to track package information.
-
 <div class="lesson-note" markdown="1">
 
-#### src and dist
+#### npm audit vulnerabilities
+
+After installing a package with npm, the output may mention something about some vulnerabilities and running `npm audit fix`. Even though these are technically vulnerabilities, they are very likely to be extremely specific niche things and as far as TOP is concerned, highly unlikely to be of any actual danger to anything you do in the curriculum, so you can ignore these if you see them.
+
+These are more relevant if you're making production apps with higher stakes, where you'd need to examine the vulnerabilities themselves to see if they can tangibly hurt you.
+
+</div>
+
+Note that we included the `--save-dev` flag (you can also use `-D` as a shortcut), which tells npm to record our two packages as development dependencies. We will only be using Webpack during development. The actual code that makes Webpack run will not be part of the code that the browser will run.
+
+Also notice that when these finished installing, npm created a `node_modules` directory and a `package-lock.json` file for us. `node_modules` is where Webpack's actual code (and a whole bunch of other stuff) lives, and `package-lock.json` is just another file npm uses to track more specific package information.
+
+### src and dist
 
 When dealing with Webpack (and often with any other bundler or build tool), we have two very important directories: `src` (short for "source") and `dist` (short for "distribution"). We could technically call these directories whatever we want, but these names are conventions.
 
 `src` is where we keep all of our website's source code, essentially where all of our work will be done (with an exception being altering any configuration files in the root of the project). When we run Webpack to bundle our code, it will output the bundled files into the `dist` directory. The idea is that if someone were to fork or clone the project, they would not need the `dist` directory, as they'd just be able to run Webpack to build from `src` into their own `dist`. Similarly, to deploy our website, we would only need the `dist` code and nothing else. Keep that in mind! Work inside `src`, build into `dist`, then deploy from there!
-
-</div>
 
 ### Bundling JavaScript
 
@@ -93,20 +101,18 @@ Back in your project root (so outside of `src`), create a `webpack.config.js` fi
 
 ```javascript
 // webpack.config.js
-const path = require("path");
+import path from "node:path";
 
-module.exports = {
+export default {
   mode: "development",
   entry: "./src/index.js",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(import.meta.dirname, "dist"),
     clean: true,
   },
 };
 ```
-
-Yes, you may have noticed this file uses CommonJS (CJS) syntax instead of ESM. That's because this file (and Webpack itself) runs in NodeJS and not the browser. By default, NodeJS uses CJS syntax, and the configuration file also contains some CJS-specific things. We need not worry about this - this is just stuff we need for Webpack to do its thing.
 
 You'll notice the exported object contains a few key sections:
 
@@ -141,15 +147,15 @@ We should also create a `template.html` inside `src` (you can name this file wha
 
 ```javascript
 // webpack.config.js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
-module.exports = {
+export default {
   mode: "development",
   entry: "./src/index.js",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(import.meta.dirname, "dist"),
     clean: true,
   },
   plugins: [
@@ -182,15 +188,15 @@ Back in our `webpack.config.js`, we need to add these loaders so Webpack knows w
 
 ```javascript
 // webpack.config.js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
-module.exports = {
+export default {
   mode: "development",
   entry: "./src/index.js",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(import.meta.dirname, "dist"),
     clean: true,
   },
   plugins: [
@@ -233,6 +239,7 @@ body {
 You can now import your CSS file into one of your JavaScript files. `src/index.js` makes sense. We don't need anything from the imported CSS file itself. Since our CSS and style loaders will handle all of that for us, we can just use a [side effect import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only).
 
 ```javascript
+// src/index.js
 import "./styles.css";
 import { greeting } from "./greeting.js";
 
@@ -243,7 +250,7 @@ Once again, bundle with Webpack using `npx webpack`, then open `dist/index.html`
 
 #### What about link tags?
 
-Notice how we don't link our CSS file in our HTML template like we would've done before. While you could do this with one of the loaders from the next section, in the real world, projects often contain many moving parts and many modules. Eventually, it becomes easier to work with multiple smaller CSS files that you import in the modules they're needed. There are even ways those files can be scoped only to those modules and not globally!
+Notice how we don't link our CSS file in our HTML template like we would've done before. While you could do this with one of the loaders from the next section, in the real world, projects often contain many moving parts and many modules. Eventually, it becomes easier to work with multiple smaller CSS files that you import in the modules where they're needed. There are even ways those files can be scoped only to those modules and not globally!
 
 We're only introducing the minimum to allow you to import your CSS into your JavaScript, but many build tools and more sophisticated bundler configurations will do a lot more to imported CSS than what we're showing here.
 
@@ -259,26 +266,28 @@ There are three different ways you could be dealing with local image files:
 
 1. **Image files we reference in our HTML template, e.g. as the `src` of an `<img>`**
 
-   We need to install and tell Webpack to use something called `html-loader`, which will detect image file paths in our HTML template and load the right image files for us. Without this, `./odin.png` would just be a bit of text that will no longer reference the correct file once we run Webpack to build into `dist`. Let's install it:
+   We need to install and tell Webpack to use something called `html-loader`, which will detect image file paths in our HTML template and load the right image files for us. Without this, a `src` like `./odin.png` would just be a bit of text that will no longer reference the correct file once we run Webpack to build into `dist`. Let's install it:
 
    ```bash
    npm install --save-dev html-loader
    ```
 
-   Then, add the following object to the `modules.rules` array within `webpack.config.js`:
+   Then, add the following object to the `module.rules` array within `webpack.config.js`:
 
    ```javascript
+   // webpack.config.js
    {
      test: /\.html$/i,
-     loader: "html-loader",
+     use: ["html-loader"],
    }
    ```
 
 1. **Images we use in our JavaScript, where we will need to import the files**
 
-   If we need to use a local image file in our JavaScript (such as when manipulating the DOM to create or edit `img` elements and set their `src` attribute), we need to import the images into our JavaScript module. Since images aren't JavaScript, we need to tell Webpack that these files will be assets by adding an `asset/resource` rule. No need to install anything here. Just add the following object to the `modules.rules` array within `webpack.config.js`:
+   If we need to use a local image file in our JavaScript (such as when manipulating the DOM to create or edit `img` elements and set their `src` attribute), we need to import the images into our JavaScript module. Since images aren't JavaScript, we need to tell Webpack that these files will be assets by adding an `asset/resource` rule. No need to install anything here. Just add the following object to the `module.rules` array within `webpack.config.js`:
 
    ```javascript
+   // webpack.config.js
    {
      test: /\.(png|svg|jpg|jpeg|gif)$/i,
      type: "asset/resource",
@@ -290,11 +299,12 @@ There are three different ways you could be dealing with local image files:
    Then, in whatever JavaScript module we want to use that image in, we just have to default import it.
 
    ```javascript
+   // src/index.js
    import odinImage from "./odin.png";
-   
+
    const image = document.createElement("img");
    image.src = odinImage;
-   
+
    document.body.appendChild(image);
    ```
 
@@ -304,15 +314,15 @@ After all that, if we added both `html-loader` and the image `asset/resource` ru
 
 ```javascript
 // webpack.config.js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
-module.exports = {
+export default {
   mode: "development",
   entry: "./src/index.js",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(import.meta.dirname, "dist"),
     clean: true,
   },
   plugins: [
@@ -328,7 +338,7 @@ module.exports = {
       },
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        use: ["html-loader"],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -367,15 +377,15 @@ Once installed, in our `webpack.config.js`, we only need to add a couple more pr
 
 ```javascript
 // webpack.config.js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
-module.exports = {
+export default {
   mode: "development",
   entry: "./src/index.js",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(import.meta.dirname, "dist"),
     clean: true,
   },
   devtool: "eval-source-map",
@@ -395,7 +405,7 @@ module.exports = {
       },
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        use: ["html-loader"],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -412,9 +422,17 @@ Firstly, we add a [source map](https://webpack.js.org/configuration/devtool/) by
 
 Secondly, by default, `webpack-dev-server` will only auto-restart when it detects any changes to files we import into our JavaScript bundle, so our HTML template will be ignored! All we need to do is add it to the dev server's array of watched files - nice and simple!
 
-Once set up, `npx webpack serve` will host our web page on `http://localhost:8080/`, which we can open in our browser and start working!
+Once set up, we can start up the dev server using the following command:
+
+```bash
+npx webpack serve
+```
+
+Our site will then be available via [http://localhost:8080/](http://localhost:8080/) by default.
 
 <div class="lesson-note" markdown="1">
+
+#### Restart the dev server upon config changes
 
 Note that the webpack-dev-server only reads your webpack configuration when you start it. If you change the webpack config file while the dev server is running, it will not reflect those config changes. Use <kbd>Ctrl</kbd> + <kbd>C</kbd> in the terminal to kill it then rerun `npx webpack serve` to apply the new config.  
 
@@ -447,9 +465,3 @@ The following questions are an opportunity to reflect on key topics in this less
 - [How would you handle assets like local image files?](#loading-images)
 - [What Webpack tool could you use during development to view changes to your website live?](#webpack-dev-server)
 - [How does using a source map help with development?](#source-maps)
-
-### Additional resources
-
-This section contains helpful links to related content. It isn't required, so consider it supplemental.
-
-- It looks like this lesson doesn't have any additional resources yet. Help us expand this section by contributing to our curriculum.

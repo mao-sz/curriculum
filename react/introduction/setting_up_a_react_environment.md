@@ -33,7 +33,7 @@ Yes, but it's *hard*. React is a complex beast and there are many moving parts. 
 - Compilation ([Babel](https://babeljs.io/))
 - React itself
 
-All of this, and sometimes *much more* is required to get a React project and development environment up and running.
+All of this, and sometimes *much more*, is required to get a React project and development environment up and running.
 
 <div class="lesson-note" markdown=1>
 
@@ -45,39 +45,33 @@ Create React App, or CRA, was the official way to scaffold new React projects si
 
 ### Simplifying the process
 
-Now that you understand what is involved with starting a React project from scratch, you can breathe a sigh of relief to learn that we can get started with a *single terminal command*.
+Now that you understand what is involved with starting a React project from scratch, you can breathe a sigh of relief to learn that we can get started with a *single terminal command*. We'll be using Vite's own React template to scaffold our project, just like if we made and used our own template repo.
 
 Vite builds frontend tools for developers and it leverages the latest technologies under the hood to provide a great developer experience. Fortunately, it also caters to the React ecosystem. We will use Vite's CLI to quickly create a template React project. It requires minimal configuration and provides extremely useful tools right out of the box, allowing us to get straight to the learning. Let's get started!
 
 ### Creating a React app
 
-Please make sure that you are using the *LTS version of Node*, otherwise errors may occur. Fire up a terminal instance, `cd` into the folder containing your projects, and enter the following command (you can replace `my-first-react-app` with any name you want):
+Please make sure that you are using the latest *LTS* version of Node, otherwise errors may occur. Open up the terminal and the folder containing your projects. Then enter the following command (you can replace `my-first-react-app` with any name you want):
 
 ```bash
 npm create vite@latest my-first-react-app -- --template react
 ```
 
-If you see the following output, enter `y` and then press <kbd>enter</kbd>:
+You may be asked if you want to install the `create-vite` package, in which case you should accept by typing `y` then hitting <kbd>Enter</kbd>. If it asks you any questions about using experimental features, you can answer no to them. Finally, answer yes to `Install with npm and start now?`.
+
+Once the command has executed, it should output the following:
 
 ```bash
-Need to install the following packages:
-  create-vite@5.X.X
-Ok to proceed? (y)
-```
-
-Once the command has executed, it should output the next steps for you to follow:
-
-```bash
-cd my-first-react-app
-npm install
-npm run dev
+➜  Local:   http://localhost:5173/
+➜  Network: use --host to expose
+➜  press h + enter to show help
 ```
 
 Provided everything has gone according to plan, head over to `localhost:5173`, where you'll be greeted with the following page:
 
-![Vite React template homepage](https://cdn.statically.io/gh/TheOdinProject/curriculum/73199c4e9e43e8d87f8759e026c13b63fcfe73c7/react/introduction/setting_up_a_react_environment/imgs/vite_react_homepage.png)
+![Vite React template homepage](https://cdn.statically.io/gh/TheOdinProject/curriculum/9200680864d044390aeb1baa838f213addd65cbe/react/introduction/setting_up_a_react_environment/imgs/vite_react_homepage.png)
 
-Congratulations! You've created your first React app.
+Congratulations! You've created your first React app. You can now exit out of the dev server (<kbd>Ctrl</kbd> + <kbd>C</kbd>) and `cd` into your project directory. You can start the dev server any time within the project directory by running `npm run dev`.
 
 To link your local project directory to a GitHub repo, create a new **empty** repo on GitHub then follow the instructions in the new repo's page to connect it to your local project directory.
 
@@ -97,7 +91,7 @@ This will tell Vite to use the current directory for the project, instead of cre
 
 ### Delving deeper
 
-Let's take a closer look at our new project. Inside you will find some folders, as well as `package.json`, `package-lock.json`, `.gitignore`, and `README.md` files. The `README.md` contains some useful information that you should take the time to skim through now.
+Let's take a closer look at our new project. Inside, you will find some folders, as well as `package.json`, `package-lock.json`, `.gitignore`, and `README.md` files. The `README.md` contains some useful information that you should take the time to skim through now.
 
 The `public` folder is where all of the static assets related to your app will go. This could include images, icons, and information files for the browser.
 
@@ -122,7 +116,7 @@ Whoa! There's quite a lot here. You are not expected to recognize much of this (
 1. We import the `App` component from `App.jsx`, so that we may place (render) it within the DOM.
 1. We import some CSS styling (you may recognize this syntax from the Webpack material).
 1. We create a `root` object by invoking `createRoot` with an element from our `index.html`.
-1. We invoke the `render` method which is attached to our `root` object, with some very interesting-looking syntax inside the parentheses.
+1. We invoke the `render` method, which is attached to our `root` object, with some very interesting-looking syntax inside the parentheses.
 
 All of this may understandably look unlike anything you've seen up until now, but have no fear, once you've spent the time with this course, you'll know exactly what all of this does, and *much more*.
 
@@ -155,9 +149,3 @@ The following questions are an opportunity to reflect on key topics in this less
 - [What is in the `public` folder?](#delving-deeper)
 - [What is in the `src` folder?](#delving-deeper)
 - [Why are the React Developer Tools useful?](#developer-tools)
-
-### Additional resources
-
-This section contains helpful links to related content. It isn't required, so consider it supplemental.
-
-- [Intro to React Dev Tools](https://www.youtube.com/watch?v=rb1GWqCJid4) gets you up to speed with a quick overview of the basic features of React Dev tools in Chrome.
