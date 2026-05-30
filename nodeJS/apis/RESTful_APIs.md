@@ -105,8 +105,8 @@ As mentioned, usually your backend application will need to send data to your fr
 
 1. Check out the [list of HTTP response status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) listed in the MDN documentation. While you will never use some codes, you will notice a lot of useful ones.
 1. Read up on REST and RESTful APIs in the following resources.
-   - Go through the following [CodeAcademy article discussing REST](https://www.codecademy.com/article/what-is-rest). It discusses the definitions of REST and gives some good examples to explain important keywords.
-   - Check out this [StackOverflow article about RESTful API design](https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design). If you want to code along, do remember that the `body-parser` middleware mentioned here has been incorporated into the Express package itself since 4.16.x and is no longer necessary.
+   - Go through the following [CodeAcademy article discussing REST](https://www.codecademy.com/article/what-is-rest). It discusses the definitions of REST and gives some good examples to explain important keywords.
+   - Check out this [StackOverflow article about RESTful API design](https://stackoverflow.blog/2020/03/02/best-practices-for-rest-api-design). If you want to code along, do remember that the `body-parser` middleware mentioned here has been incorporated into the Express package itself since 4.16.x and is no longer necessary.
 1. Code along with this tutorial on [setting up a REST API with Express](https://www.robinwieruch.de/node-express-server-rest-api/). Go through this article thoroughly, as it covers key details like organizing your code, dive into middlewares, and provides links to other important resources at the end.
 
 </div>
@@ -121,9 +121,3 @@ The following questions are an opportunity to reflect on key topics in this less
 - [Which part of a URL is referred to as query parameters?](#urls)
 - [Which HTTP response status code indicates the permanent relocation of a resource?](#status-codes-300-399-redirection-messages)
 - [What is an API and how do you make it RESTful?](#restful-apis)
-
-### Additional resources
-
-This section contains helpful links to related content. It isn't required, so consider it supplemental.
-
-- [HTTP Request/Response Basics](http://justahelp.blogspot.com/2013/09/http-requestresponse-basics.html) from Pralay Roy goes into further detail about their lifecycle and anatomy with best practices.
