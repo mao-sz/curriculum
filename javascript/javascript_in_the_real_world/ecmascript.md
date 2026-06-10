@@ -1,6 +1,6 @@
 ### Introduction
 
-We've been throwing around the term **ES6** since our very first lessons, but we haven't taken the time to properly explain what it means or to investigate the implications of it in our code.
+We've been throwing around the term **ES6** since our very first lessons, but we haven't taken the time to properly explain what it means or to investigate the implications of it in our code. Non-CS lesson JS change!
 
 ### Lesson overview
 
