@@ -17,7 +17,7 @@ jobs:
         with:
           files: |
             **/computer_science/**
-          separator: ","
+          separator: ','
 
       - name: Check for unduplicated changes
         id: change-duplication
